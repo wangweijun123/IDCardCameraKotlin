@@ -1,49 +1,30 @@
-package com.bandroid.kyc.utils;
+package com.bandroid.kyc.utils
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
-import android.graphics.BitmapFactory;
-import android.graphics.ImageFormat;
-import android.graphics.Rect;
-import android.graphics.YuvImage;
-import android.util.Log;
+import android.content.Context
+import android.graphics.*
+import com.bandroid.kyc.utils.FileUtils.getFileByPath
+import com.bandroid.kyc.utils.FileUtils.createOrExistsFile
+import com.bandroid.kyc.utils.FileUtils.closeIO
+import android.graphics.Bitmap.CompressFormat
+import android.util.Log
+import com.bandroid.kyc.utils.ImageUtils
+import kotlin.jvm.JvmOverloads
+import com.bandroid.kyc.camera.CameraPreview
+import java.io.*
+import java.text.SimpleDateFormat
+import java.util.*
 
-import com.bandroid.kyc.camera.CameraPreview;
-
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
-public class ImageUtils {
-
+object ImageUtils {
     /**
      * 保存图片
      *
      * @param src      源图片
      * @param filePath 要保存到的文件路径
      * @param format   格式
-     * @return {@code true}: 成功<br>{@code false}: 失败
+     * @return `true`: 成功<br></br>`false`: 失败
      */
-    public static boolean save(Bitmap src, String filePath, CompressFormat format) {
-        return save(src, FileUtils.getFileByPath(filePath), format, false);
-    }
-
-    /**
-     * 保存图片
-     *
-     * @param src    源图片
-     * @param file   要保存到的文件
-     * @param format 格式
-     * @return {@code true}: 成功<br>{@code false}: 失败
-     */
-    public static boolean save(Bitmap src, File file, CompressFormat format) {
-        return save(src, file, format, false);
+    fun save(src: Bitmap, filePath: String?, format: CompressFormat?): Boolean {
+        return save(src, getFileByPath(filePath), format, false)
     }
 
     /**
@@ -53,12 +34,11 @@ public class ImageUtils {
      * @param filePath 要保存到的文件路径
      * @param format   格式
      * @param recycle  是否回收
-     * @return {@code true}: 成功<br>{@code false}: 失败
+     * @return `true`: 成功<br></br>`false`: 失败
      */
-    public static boolean save(Bitmap src, String filePath, CompressFormat format, boolean recycle) {
-        return save(src, FileUtils.getFileByPath(filePath), format, recycle);
+    fun save(src: Bitmap, filePath: String?, format: CompressFormat?, recycle: Boolean): Boolean {
+        return save(src, getFileByPath(filePath), format, recycle)
     }
-
     /**
      * 保存图片
      *
@@ -66,37 +46,46 @@ public class ImageUtils {
      * @param file    要保存到的文件
      * @param format  格式
      * @param recycle 是否回收
-     * @return {@code true}: 成功<br>{@code false}: 失败
+     * @return `true`: 成功<br></br>`false`: 失败
      */
-    public static boolean save(Bitmap src, File file, CompressFormat format, boolean recycle) {
-        if (isEmptyBitmap(src) || !FileUtils.createOrExistsFile(file)) {
-            return false;
+    /**
+     * 保存图片
+     *
+     * @param src    源图片
+     * @param file   要保存到的文件
+     * @param format 格式
+     * @return `true`: 成功<br></br>`false`: 失败
+     */
+    @JvmOverloads
+    fun save(src: Bitmap, file: File?, format: CompressFormat?, recycle: Boolean = false): Boolean {
+        if (isEmptyBitmap(src) || !createOrExistsFile(file)) {
+            return false
         }
-        System.out.println(src.getWidth() + ", " + src.getHeight());
-        OutputStream os = null;
-        boolean ret = false;
+        println(src.width.toString() + ", " + src.height)
+        var os: OutputStream? = null
+        var ret = false
         try {
-            os = new BufferedOutputStream(new FileOutputStream(file));
-            ret = src.compress(format, 100, os);
-            if (recycle && !src.isRecycled()) {
-                src.recycle();
+            os = BufferedOutputStream(FileOutputStream(file))
+            ret = src.compress(format, 100, os)
+            if (recycle && !src.isRecycled) {
+                src.recycle()
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (e: IOException) {
+            e.printStackTrace()
         } finally {
-            FileUtils.closeIO(os);
+            closeIO(os)
         }
-        return ret;
+        return ret
     }
 
     /**
      * 判断bitmap对象是否为空
      *
      * @param src 源图片
-     * @return {@code true}: 是<br>{@code false}: 否
+     * @return `true`: 是<br></br>`false`: 否
      */
-    private static boolean isEmptyBitmap(Bitmap src) {
-        return src == null || src.getWidth() == 0 || src.getHeight() == 0;
+    private fun isEmptyBitmap(src: Bitmap?): Boolean {
+        return src == null || src.width == 0 || src.height == 0
     }
 
     /**
@@ -107,40 +96,40 @@ public class ImageUtils {
      * @param height
      * @return
      */
-    public static Bitmap getBitmapFromByte(byte[] bytes, int width, int height) {
-        final YuvImage image = new YuvImage(bytes, ImageFormat.NV21, width, height, null);
-        ByteArrayOutputStream os = new ByteArrayOutputStream(bytes.length);
-        if (!image.compressToJpeg(new Rect(0, 0, width, height), 100, os)) {
-            return null;
+    fun getBitmapFromByte(bytes: ByteArray, width: Int, height: Int): Bitmap? {
+        val image = YuvImage(bytes, ImageFormat.NV21, width, height, null)
+        val os = ByteArrayOutputStream(bytes.size)
+        if (!image.compressToJpeg(Rect(0, 0, width, height), 100, os)) {
+            return null
         }
-        byte[] tmp = os.toByteArray();
-        Bitmap bmp = BitmapFactory.decodeByteArray(tmp, 0, tmp.length);
-        return bmp;
+        val tmp = os.toByteArray()
+        return BitmapFactory.decodeByteArray(tmp, 0, tmp.size)
     }
 
-    public static boolean saveBigImage(File file, Bitmap bitmap) {
-        Log.d(CameraPreview.TAG, "图片地址::" + file.getAbsolutePath());
-        boolean save = ImageUtils.save(bitmap, file.getAbsolutePath(), CompressFormat.JPEG);
-        return save;
+    fun saveBigImage(file: File, bitmap: Bitmap): Boolean {
+        Log.d(CameraPreview.TAG, "图片地址::" + file.absolutePath)
+        return save(bitmap, file.absolutePath, CompressFormat.JPEG)
     }
 
-    public static File createFile(File baseFolder, String format, String extension) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.US);
-        return new File(baseFolder, simpleDateFormat.format(System.currentTimeMillis()) + extension);
+    @JvmStatic
+    fun createFile(baseFolder: File?, format: String?, extension: String): File {
+        val simpleDateFormat = SimpleDateFormat(format, Locale.US)
+        return File(baseFolder, simpleDateFormat.format(System.currentTimeMillis()) + extension)
     }
 
-    public static File getOutputDirectory(Context context) {
-        File[] externalMediaDirs = context.getExternalMediaDirs();
-        if (externalMediaDirs != null && externalMediaDirs.length > 0) {
-            File externalMediaDir = externalMediaDirs[0];
-            Log.d(CameraPreview.TAG, "externalMediaDir= " + externalMediaDir.getAbsolutePath());
-            File imageCacheDir = new File(externalMediaDir, "imagecache");
+    @JvmStatic
+    fun getOutputDirectory(context: Context): File {
+        val externalMediaDirs = context.externalMediaDirs
+        return if (externalMediaDirs != null && externalMediaDirs.size > 0) {
+            val externalMediaDir = externalMediaDirs[0]
+            Log.d(CameraPreview.TAG, "externalMediaDir= " + externalMediaDir.absolutePath)
+            val imageCacheDir = File(externalMediaDir, "imagecache")
             if (!imageCacheDir.exists()) {
-                imageCacheDir.mkdirs();
+                imageCacheDir.mkdirs()
             }
-            return imageCacheDir;
+            imageCacheDir
         } else {
-            return context.getFilesDir();
+            context.filesDir
         }
     }
 }

@@ -1,19 +1,18 @@
-package com.bandroid.kyc.utils;
+package com.bandroid.kyc.utils
 
-import android.content.Context;
+import android.content.Context
 
-public class ScreenUtils {
-
+object ScreenUtils {
     /**
      * 获取屏幕宽度（px）
      *
      * @param context
      * @return
      */
-    public static int getScreenWidth(Context context) {
-        return context.getResources().getDisplayMetrics().widthPixels;
+    @JvmStatic
+    fun getScreenWidth(context: Context): Int {
+        return context.resources.displayMetrics.widthPixels
     }
-
 
     /**
      * 获取屏幕高度（px）
@@ -21,7 +20,8 @@ public class ScreenUtils {
      * @param context
      * @return
      */
-    public static int getScreenHeight(Context context) {
-        return context.getResources().getDisplayMetrics().heightPixels;
+    @JvmStatic
+    fun getScreenHeight(context: Context): Int {
+        return context.resources.displayMetrics.heightPixels
     }
 }

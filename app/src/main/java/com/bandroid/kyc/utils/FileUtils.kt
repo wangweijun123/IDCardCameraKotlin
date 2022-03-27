@@ -1,11 +1,10 @@
-package com.bandroid.kyc.utils;
+package com.bandroid.kyc.utils
 
-import android.content.Context;
-import android.os.Environment;
-
-import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
+import android.content.Context
+import android.os.Environment
+import java.io.Closeable
+import java.io.File
+import java.io.IOException
 
 /**
  * Author       wildma
@@ -13,82 +12,54 @@ import java.io.IOException;
  * Date         2018/6/10
  * Desc	        ${文件相关工具类}
  */
-public final class FileUtils {
-
-    /**
-     * 得到SD卡根目录，SD卡不可用则获取内部存储的根目录
-     */
-    public static File getRootPath() {
-        File path = null;
-        if (sdCardIsAvailable()) {
-            path = Environment.getExternalStorageDirectory(); //SD卡根目录    /storage/emulated/0
-        } else {
-            path = Environment.getDataDirectory();//内部存储的根目录    /data
-        }
-        return path;
-    }
-
-    /**
-     * SD卡是否可用
-     */
-    public static boolean sdCardIsAvailable() {
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            File sd = new File(Environment.getExternalStorageDirectory().getPath());
-            return sd.canWrite();
-        } else
-            return false;
-    }
-
+object FileUtils {//内部存储的根目录    /data//SD卡根目录    /storage/emulated/0
     /**
      * 判断目录是否存在，不存在则判断是否创建成功
      *
      * @param dirPath 文件路径
-     * @return {@code true}: 存在或创建成功<br>{@code false}: 不存在或创建失败
+     * @return `true`: 存在或创建成功<br></br>`false`: 不存在或创建失败
      */
-    public static boolean createOrExistsDir(String dirPath) {
-        return createOrExistsDir(getFileByPath(dirPath));
+    fun createOrExistsDir(dirPath: String?): Boolean {
+        return createOrExistsDir(getFileByPath(dirPath))
     }
 
     /**
      * 判断目录是否存在，不存在则判断是否创建成功
      *
      * @param file 文件
-     * @return {@code true}: 存在或创建成功<br>{@code false}: 不存在或创建失败
+     * @return `true`: 存在或创建成功<br></br>`false`: 不存在或创建失败
      */
-    public static boolean createOrExistsDir(File file) {
+    fun createOrExistsDir(file: File?): Boolean {
         // 如果存在，是目录则返回true，是文件则返回false，不存在则返回是否创建成功
-        return file != null && (file.exists() ? file.isDirectory() : file.mkdirs());
+        return file != null && if (file.exists()) file.isDirectory else file.mkdirs()
     }
 
     /**
      * 判断文件是否存在，不存在则判断是否创建成功
      *
      * @param filePath 文件路径
-     * @return {@code true}: 存在或创建成功<br>{@code false}: 不存在或创建失败
+     * @return `true`: 存在或创建成功<br></br>`false`: 不存在或创建失败
      */
-    public static boolean createOrExistsFile(String filePath) {
-        return createOrExistsFile(getFileByPath(filePath));
+    fun createOrExistsFile(filePath: String?): Boolean {
+        return createOrExistsFile(getFileByPath(filePath))
     }
 
     /**
      * 判断文件是否存在，不存在则判断是否创建成功
      *
      * @param file 文件
-     * @return {@code true}: 存在或创建成功<br>{@code false}: 不存在或创建失败
+     * @return `true`: 存在或创建成功<br></br>`false`: 不存在或创建失败
      */
-    public static boolean createOrExistsFile(File file) {
-        if (file == null)
-            return false;
+    @JvmStatic
+    fun createOrExistsFile(file: File?): Boolean {
+        if (file == null) return false
         // 如果存在，是文件则返回true，是目录则返回false
-        if (file.exists())
-            return file.isFile();
-        if (!createOrExistsDir(file.getParentFile()))
-            return false;
-        try {
-            return file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+        if (file.exists()) return file.isFile
+        return if (!createOrExistsDir(file.parentFile)) false else try {
+            file.createNewFile()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            false
         }
     }
 
@@ -98,8 +69,9 @@ public final class FileUtils {
      * @param filePath 文件路径
      * @return 文件
      */
-    public static File getFileByPath(String filePath) {
-        return isSpace(filePath) ? null : new File(filePath);
+    @JvmStatic
+    fun getFileByPath(filePath: String?): File? {
+        return if (isSpace(filePath)) null else File(filePath)
     }
 
     /**
@@ -108,15 +80,17 @@ public final class FileUtils {
      * @param s
      * @return
      */
-    private static boolean isSpace(final String s) {
-        if (s == null)
-            return true;
-        for (int i = 0, len = s.length(); i < len; ++i) {
-            if (!Character.isWhitespace(s.charAt(i))) {
-                return false;
+    private fun isSpace(s: String?): Boolean {
+        if (s == null) return true
+        var i = 0
+        val len = s.length
+        while (i < len) {
+            if (!Character.isWhitespace(s[i])) {
+                return false
             }
+            ++i
         }
-        return true;
+        return true
     }
 
     /**
@@ -124,17 +98,15 @@ public final class FileUtils {
      *
      * @param closeables closeable
      */
-    public static void closeIO(Closeable... closeables) {
-        if (closeables == null)
-            return;
+    @JvmStatic
+    fun closeIO(vararg closeables: Closeable?) {
+        if (closeables == null) return
         try {
-            for (Closeable closeable : closeables) {
-                if (closeable != null) {
-                    closeable.close();
-                }
+            for (closeable in closeables) {
+                closeable?.close()
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
     }
 
@@ -144,18 +116,17 @@ public final class FileUtils {
      * @param context Context
      * @return 缓存图片的目录
      */
-    public static String getImageCacheDir(Context context) {
-        File file;
-        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            file = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+    fun getImageCacheDir(context: Context): String {
+        val file: File?
+        file = if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
+            context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         } else {
-            file = context.getCacheDir();
+            context.cacheDir
         }
-        String path = file.getPath() + "/cache";
-        File cachePath = new File(path);
-        if (!cachePath.exists())
-            cachePath.mkdir();
-        return path;
+        val path = file!!.path + "/cache"
+        val cachePath = File(path)
+        if (!cachePath.exists()) cachePath.mkdir()
+        return path
     }
 
     /**
@@ -163,17 +134,16 @@ public final class FileUtils {
      *
      * @param context
      */
-    public static void clearCache(Context context) {
-        String cacheImagePath = getImageCacheDir(context);
-        File cacheImageDir = new File(cacheImagePath);
-        File[] files = cacheImageDir.listFiles();
+    fun clearCache(context: Context) {
+        val cacheImagePath = getImageCacheDir(context)
+        val cacheImageDir = File(cacheImagePath)
+        val files = cacheImageDir.listFiles()
         if (files != null) {
-            for (File file : files) {
-                if (file.isFile()) {
-                    file.delete();
+            for (file in files) {
+                if (file.isFile) {
+                    file.delete()
                 }
             }
         }
     }
-
 }
