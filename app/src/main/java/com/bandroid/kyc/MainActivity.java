@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bandroid.kyc.camera.CameraActivity;
 import com.bandroid.kyc.camera.CameraPreview;
-import com.bandroid.kyc.utils.ImageUtils;
+import com.bandroid.kyc.camera.utils.ImageUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mIvFront = (ImageView) findViewById(R.id.iv_front);
         mIvBack = (ImageView) findViewById(R.id.iv_back);
+
+
     }
 
     /**
@@ -80,4 +82,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }

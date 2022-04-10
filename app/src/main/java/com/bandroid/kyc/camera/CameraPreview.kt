@@ -2,8 +2,8 @@ package com.bandroid.kyc.camera
 
 import com.bandroid.kyc.camera.SensorControler.Companion.getInstance
 import com.bandroid.kyc.camera.CameraUtils.openCamera
-import com.bandroid.kyc.utils.ScreenUtils.getScreenWidth
-import com.bandroid.kyc.utils.ScreenUtils.getScreenHeight
+import com.bandroid.kyc.camera.utils.ScreenUtils.getScreenWidth
+import com.bandroid.kyc.camera.utils.ScreenUtils.getScreenHeight
 import android.view.SurfaceView
 import android.view.SurfaceHolder
 import android.annotation.TargetApi

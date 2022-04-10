@@ -1,13 +1,12 @@
-package com.bandroid.kyc.utils
+package com.bandroid.kyc.camera.utils
 
 import android.content.Context
 import android.graphics.*
-import com.bandroid.kyc.utils.FileUtils.getFileByPath
-import com.bandroid.kyc.utils.FileUtils.createOrExistsFile
-import com.bandroid.kyc.utils.FileUtils.closeIO
+import com.bandroid.kyc.camera.utils.FileUtils.getFileByPath
+import com.bandroid.kyc.camera.utils.FileUtils.createOrExistsFile
+import com.bandroid.kyc.camera.utils.FileUtils.closeIO
 import android.graphics.Bitmap.CompressFormat
 import android.util.Log
-import com.bandroid.kyc.utils.ImageUtils
 import kotlin.jvm.JvmOverloads
 import com.bandroid.kyc.camera.CameraPreview
 import java.io.*

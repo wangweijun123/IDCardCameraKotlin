@@ -1,4 +1,4 @@
-package com.bandroid.kyc.utils
+package com.bandroid.kyc.camera.utils
 
 import android.content.Context
 

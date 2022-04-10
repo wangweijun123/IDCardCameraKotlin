@@ -2,17 +2,13 @@ package com.bandroid.kyc.camera
 
 import android.Manifest
 import android.app.Activity
-import com.bandroid.kyc.camera.CameraPreview
 import android.graphics.Bitmap
 import android.widget.TextView
 import android.os.Bundle
-import com.bandroid.kyc.utils.PermissionUtils
-import com.bandroid.kyc.camera.CameraActivity
+import com.bandroid.kyc.camera.utils.PermissionUtils
 import com.bandroid.kyc.R
 import android.content.Intent
-import com.bandroid.kyc.camera.CameraUtils
-import android.hardware.Camera.PreviewCallback
-import com.bandroid.kyc.utils.ImageUtils
+import com.bandroid.kyc.camera.utils.ImageUtils
 import android.content.pm.PackageManager
 import android.graphics.Matrix
 import android.os.Handler
@@ -21,7 +17,6 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.core.app.ActivityCompat
-import android.widget.Toast
 import java.io.File
 import java.lang.Exception
 
@@ -248,5 +243,9 @@ class CameraActivity : Activity(), View.OnClickListener {
             }
             return result
         }
+    }
+
+    private fun testlifecycleScope() {
+//        lifecycleScope
     }
 }

@@ -1,12 +1,9 @@
-package com.bandroid.kyc.utils
+package com.bandroid.kyc.camera.utils
 
 import androidx.core.app.ActivityCompat
 import android.content.pm.PackageManager
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import java.util.ArrayList
 
 object PermissionUtils {
