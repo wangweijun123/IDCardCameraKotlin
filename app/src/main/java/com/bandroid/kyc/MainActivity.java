@@ -6,7 +6,9 @@ import static com.bandroid.kyc.camera.CameraActivity.PHOTO_EXTENSION;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -83,5 +85,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    boolean front = false;
+    public void jumpSystemCamera(View view) {
+        front = !front;
+        File targetFile = new File(getCacheDir(), System.currentTimeMillis()+".jpg");
+        if (!targetFile.exists()) {
+            try {
+                targetFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        Intent intent = null;
+        if (front) {
+            intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
+            intent.putExtra("android.intent.extras.CAMERA_FACING",
+                    android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT);
+            intent.putExtra("android.intent.extras.LENS_FACING_FRONT", 1);
+            intent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true);
+        } else{
+            intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        }
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(targetFile));
+        startActivityForResult( intent, 100);
+    }
 }

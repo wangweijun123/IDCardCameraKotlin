@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/drawable/ic_shutter.xml" value="0.2388888888888889" />
         <entry key="app/src/main/res/drawable/ic_shutter_pressed.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_camera.xml" value="0.2703125" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2557291666666667" />
       </map>
     </option>
   </component>
