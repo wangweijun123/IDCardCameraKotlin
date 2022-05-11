@@ -2,23 +2,24 @@ package com.bandroid.kyc.camera
 
 import android.Manifest
 import android.app.Activity
-import android.graphics.Bitmap
-import android.widget.TextView
-import android.os.Bundle
-import com.bandroid.kyc.camera.utils.PermissionUtils
-import com.bandroid.kyc.R
 import android.content.Intent
-import com.bandroid.kyc.camera.utils.ImageUtils
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Matrix
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
+import com.bandroid.kyc.R
+import com.bandroid.kyc.camera.utils.ImageUtils
+import com.bandroid.kyc.camera.utils.PermissionUtils
 import java.io.File
-import java.lang.Exception
+
 
 class CameraActivity : Activity(), View.OnClickListener {
     private var cameraTitle: String? = null
@@ -104,6 +105,12 @@ class CameraActivity : Activity(), View.OnClickListener {
             val size = camera.parameters.previewSize //获取预览大小 height:1440 width:3200
             camera.stopPreview()
             Thread {
+                val metric = DisplayMetrics()
+                windowManager.defaultDisplay.getRealMetrics(metric)
+                val width = metric.widthPixels // 宽度（PX）
+                val height = metric.heightPixels // 高度（PX）
+                Log.d(CameraPreview.TAG, "手机分辨率大小 width=$width, height=$height")
+
                 val w = size.width
                 val h = size.height
                 Log.d(CameraPreview.TAG, "获取预览大小 W=$w, h=$h")
