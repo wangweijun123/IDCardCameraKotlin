@@ -40,13 +40,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
-                    android:src="@drawable/camera_passport_front" />
-                <TextView
+                    android:src="@drawable/camera_idcard_front_compress" />
+
+                <!-- bg_camera_crop ic_group_last -->
+                <ImageView
                     android:id="@+id/arrow_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#FCD535"
                     android:layout_marginBottom="20dp"
+                    android:src="@drawable/camera_left_arrow"
                     android:layout_gravity="bottom|center_horizontal"/>
             </FrameLayout>
 

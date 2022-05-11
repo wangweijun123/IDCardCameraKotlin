@@ -79,11 +79,11 @@ class CameraActivity : Activity(), View.OnClickListener {
             cameraFileType = it.getStringExtra(KEY_CAMERA_FILE_TYPE)
             cameraTitleTV!!.text = cameraTitle
             cameraSubTitleTV!!.text = cameraSubtitle
-            if ("1" == cameraFileType) {
-                mIvCameraCrop!!.setImageResource(R.drawable.camera_passport_front)
-            } else {
-                mIvCameraCrop!!.setImageResource(R.drawable.camera_idcard_front)
-            }
+//            if ("1" == cameraFileType) {
+//                mIvCameraCrop!!.setImageResource(R.drawable.camera_passport_front)
+//            } else {
+//                mIvCameraCrop!!.setImageResource(R.drawable.camera_idcard_front)
+//            }
         }
     }
 
