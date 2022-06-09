@@ -22,6 +22,8 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
     private var mContext: Context? = null
     private var mSurfaceHolder: SurfaceHolder? = null
 
+    var openCameraFailedCallback: (() -> Unit)? = null
+
     constructor(context: Context) : super(context) {
         init(context)
     }
@@ -60,7 +62,10 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
-        camera = openCamera()
+        Log.d(TAG, "surfaceCreated tid = ${Thread.currentThread().id}, ${Thread.currentThread().name}")
+            camera = openCamera()
+        Log.d(TAG, "openCameraFailedCallback?.invoke ...")
+        openCameraFailedCallback?.invoke()
         camera?.let {
             try {
                 it.setPreviewDisplay(holder)

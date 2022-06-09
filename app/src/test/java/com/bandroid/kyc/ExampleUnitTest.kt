@@ -1,5 +1,6 @@
 package com.bandroid.kyc
 
+import com.bandroid.kyc.camera.utils.MyImageUtils
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -12,6 +13,22 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+//        val outWidth = 1093; //re =1
+//        val outHeight = 554
+
+//        val outWidth = 1992; //re =1
+//        val outHeight = 1053
+
+//        val outWidth = 3500; //re =2
+//        val outHeight = 2500
+
+        val outWidth = 500; //re =1
+        val outHeight = 300
+
+        val reqWidth = 1000
+        val reqHeight = 1000
+
+        val re = MyImageUtils.calculateInSampleSize(outWidth,outHeight, reqWidth, reqHeight)
+        println("re = $re")
     }
 }

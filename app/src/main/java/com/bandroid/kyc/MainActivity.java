@@ -5,6 +5,7 @@ import static com.bandroid.kyc.camera.CameraActivity.PHOTO_EXTENSION;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bandroid.kyc.camera.CameraActivity;
 import com.bandroid.kyc.camera.CameraPreview;
 import com.bandroid.kyc.camera.utils.ImageUtils;
+import com.bandroid.kyc.camera.utils.MyImageUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -80,6 +82,18 @@ public class MainActivity extends AppCompatActivity {
                 final String path = data.getStringExtra(IMAGE_PATH);
                 if (!TextUtils.isEmpty(path)) {
                     mIvFront.setImageBitmap(BitmapFactory.decodeFile(path));
+//                    try {
+//                        // Bitmap bitmap = BitmapFactory.decodeFile(path);
+//                        Bitmap bitmap = MyImageUtils.decode22(path);
+//                        Log.d(CameraPreview.TAG, "显示的图片大小 width="
+//                                +bitmap.getWidth()+", height="+bitmap.getHeight());
+//
+//                        mIvFront.setImageBitmap(bitmap);
+//
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+
                 }
             }
         }

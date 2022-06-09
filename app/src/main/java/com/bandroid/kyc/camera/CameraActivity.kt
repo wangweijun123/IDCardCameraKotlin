@@ -56,6 +56,7 @@ class CameraActivity : Activity(), View.OnClickListener {
 
     private fun initView() {
         mCameraPreview = findViewById<View>(R.id.camera_preview) as CameraPreview
+        Log.d(CameraPreview.TAG, "initView tid = ${Thread.currentThread().id}, ${Thread.currentThread().name}")
         mIvCameraCrop = findViewById<View>(R.id.cropIv) as ImageView
         leftMock = findViewById(R.id.leftMock)
         headerMock = findViewById(R.id.headerMock)
@@ -68,6 +69,10 @@ class CameraActivity : Activity(), View.OnClickListener {
                 mCameraPreview!!.visibility = View.VISIBLE
             }
         }, 500)
+
+        mCameraPreview!!.openCameraFailedCallback = {
+            Log.d(CameraPreview.TAG, "CameraActivity open camera failed")
+        }
     }
 
     private fun initListener() {
